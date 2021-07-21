@@ -9,7 +9,7 @@ load_dotenv()
 decks_bp = Blueprint('decks', __name__, url_prefix='/decks')
 @decks_bp.route("/<deck_id>/cards", methods=["GET"])
 def handle_cards(deck_id):
-    deck = Deck.query.get(deck_id)
+    deck = Deck.query.get_or_404(deck_id)
 
     if request.method == "GET":
         cards = deck.cards
