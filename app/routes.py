@@ -39,17 +39,18 @@ def handle_cards(deck_id):
         })
     return jsonify(cards_response)
 
-@players_bp.route("", methods=["GET", "POST"])
+@players_bp.route("", methods=["GET", "POST", "DELETE"])
 def handle_players():
+    players = Player.query.all()
 
     if request.method == "GET":
-        players = Player.query.all()
-
+        # players = Player.query.all()
         players_response = []
         for player in players:
             players_response.append({
             "player_id": player.player_id,
-            "name": player.name
+            "name": player.name,
+            "win_count": player.win_count
         })
         return jsonify(players_response)
 
@@ -62,6 +63,14 @@ def handle_players():
         db.session.commit()
         commited_player = {"player":{"name": new_player.name}}
         return jsonify(commited_player), 201
+    
+    elif request.method == "DELETE":
+        for player in players:
+            db.session.delete(player)
+        db.session.commit()
+        deleted_players_response = {"details": f'players successfully deleted'}
+        return deleted_players_response, 200
+        
 
 
 
