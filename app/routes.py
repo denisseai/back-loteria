@@ -4,17 +4,15 @@ from dotenv import load_dotenv
 from app.models.card import Card
 from app.models.deck import Deck
 from app.models.player import Player
-from app.models.game_player import GamePlayer
 
 load_dotenv()
 
 decks_bp = Blueprint('decks', __name__, url_prefix='/decks')
 players_bp = Blueprint('players', __name__, url_prefix='/players')
-game_player_bp = Blueprint('game_player', __name__, url_prefix='/game_player')
 
-@game_player_bp.route("/<player_id>", methods=["PATCH"])
-def handle_game_player(player_id):
-    winner = GamePlayer.query.get_or_404(player_id)
+@players_bp.route("/<player_id>", methods=["PATCH"])
+def handle_player(player_id):
+    winner = Player.query.get_or_404(player_id)
     winner.win_count += 1
     db.session.add(winner)
     db.session.commit()

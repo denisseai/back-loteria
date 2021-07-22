@@ -24,16 +24,12 @@ def create_app():
     from app.models.card import Card
     from app.models.player import Player
     from app.models.deck import Deck
-    from app.models.game import Game
-    from app.models.game_player import GamePlayer
 
     from .routes import decks_bp
     from .routes import players_bp
-    from .routes import game_player_bp
     
     app.register_blueprint(decks_bp)
     app.register_blueprint(players_bp)
-    app.register_blueprint(game_player_bp)
 
     CORS(app)
     return app
