@@ -10,13 +10,19 @@ load_dotenv()
 decks_bp = Blueprint('decks', __name__, url_prefix='/decks')
 players_bp = Blueprint('players', __name__, url_prefix='/players')
 
-@players_bp.route("/<player_id>", methods=["PATCH"])
+@players_bp.route("/<player_id>/win", methods=["PATCH"])
 def handle_player(player_id):
     winner = Player.query.get_or_404(player_id)
     winner.win_count += 1
     db.session.add(winner)
     db.session.commit()
-    return jsonify(winner), 201
+    commited_winner = {
+        "player": {
+            "player_name": winner.name,
+            "win_count": winner.win_count
+        }
+    }
+    return jsonify(commited_winner), 201
 
 @decks_bp.route("/<deck_id>/cards", methods=["GET"])
 def handle_cards(deck_id):
