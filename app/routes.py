@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from app.models.card import Card
 from app.models.deck import Deck
 from app.models.player import Player
+from sqlalchemy import desc
 
 load_dotenv()
 
@@ -45,7 +46,7 @@ def handle_cards(deck_id):
 
 @players_bp.route("", methods=["GET", "POST", "DELETE"], strict_slashes = False)
 def handle_players():
-    players = Player.query.all()
+    players = Player.query.order_by(Player.name)
 
     if request.method == "GET":
         # players = Player.query.all()
