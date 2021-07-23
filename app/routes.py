@@ -14,7 +14,7 @@ players_bp = Blueprint('players', __name__, url_prefix='/players')
 def root():
     return ('''<h1>Loteria</h1>''')
 
-@players_bp.route("/<player_id>/win", methods=["PATCH"])
+@players_bp.route("/<player_id>/win", methods=["PATCH"], strict_slashes = False)
 def handle_player(player_id):
     winner = Player.query.get_or_404(player_id)
     winner.win_count += 1
@@ -28,7 +28,7 @@ def handle_player(player_id):
     }
     return jsonify(commited_winner), 201
 
-@decks_bp.route("/<deck_id>/cards", methods=["GET"])
+@decks_bp.route("/<deck_id>/cards", methods=["GET"], strict_slashes = False)
 def handle_cards(deck_id):
     deck = Deck.query.get_or_404(deck_id)
 
@@ -43,7 +43,7 @@ def handle_cards(deck_id):
         })
     return jsonify(cards_response)
 
-@players_bp.route("", methods=["GET", "POST", "DELETE"])
+@players_bp.route("", methods=["GET", "POST", "DELETE"], strict_slashes = False)
 def handle_players():
     players = Player.query.all()
 
