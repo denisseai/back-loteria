@@ -10,6 +10,10 @@ load_dotenv()
 decks_bp = Blueprint('decks', __name__, url_prefix='/decks')
 players_bp = Blueprint('players', __name__, url_prefix='/players')
 
+@decks_bp.route('/')
+def root():
+    return ('''<h1>Loteria</h1>''')
+
 @players_bp.route("/<player_id>/win", methods=["PATCH"])
 def handle_player(player_id):
     winner = Player.query.get_or_404(player_id)
@@ -70,8 +74,3 @@ def handle_players():
         db.session.commit()
         deleted_players_response = {"details": f'players successfully deleted'}
         return deleted_players_response, 200
-        
-
-
-
-
